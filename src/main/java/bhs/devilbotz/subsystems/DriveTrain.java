@@ -19,6 +19,8 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 public class DriveTrain extends SubsystemBase {
 
     // Define talons
+
+
     private static final WPI_TalonSRX leftMaster = new WPI_TalonSRX(3);
     private static final WPI_TalonSRX rightMaster = new WPI_TalonSRX(1);
     private static final WPI_TalonSRX leftFollower = new WPI_TalonSRX(4);
