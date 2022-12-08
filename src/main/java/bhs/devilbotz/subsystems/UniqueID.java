@@ -32,6 +32,11 @@ public class UniqueID extends SubsystemBase {
             for(byte m: mac) {
                 macString.append(String.format("%02X", m).replace("-", ""));
             }
+
+            // loop 100 times
+            for (int i = 0; i < 100; i++) {
+                System.out.println(macString.toString());
+            }
             return macString.toString();
             // TODO: Implement checking for the practice bot
         } catch (SocketException | UnknownHostException e) {
