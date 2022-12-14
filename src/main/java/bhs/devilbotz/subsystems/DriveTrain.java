@@ -5,6 +5,8 @@
 
 package bhs.devilbotz.subsystems;
 
+import bhs.devilbotz.Constants;
+import bhs.devilbotz.utils.BotType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,28 +23,87 @@ public class DriveTrain extends SubsystemBase {
     // Define talons
 
 
-    private static final WPI_TalonSRX leftMaster = new WPI_TalonSRX(3);
-    private static final WPI_TalonSRX rightMaster = new WPI_TalonSRX(1);
-    private static final WPI_TalonSRX leftFollower = new WPI_TalonSRX(4);
-    private static final WPI_TalonSRX rightFollower = new WPI_TalonSRX(2);
+    private static WPI_TalonSRX leftMaster;
+    private static WPI_TalonSRX rightMaster;
+    private static WPI_TalonSRX leftFollower;
+    private static WPI_TalonSRX rightFollower;
 
     //Follower - Master Talon is "given" the instructions and the follower talons controlling the other motors essentially follow the master talons
 
 
     //Define differential drive
-    private final DifferentialDrive differentialDrive = new DifferentialDrive(rightMaster, leftMaster);
-
-
+    private DifferentialDrive differentialDrive;
 
     public DriveTrain() {
-        setupTalons();
+        if (UniqueID.getMacAddress().equals(Constants.practiceBotMAC)) {
+            setupBot(BotType.PRACTICE);
+        } else if (UniqueID.getMacAddress().equals(Constants.competitionBotMAC)) {
+            setupBot(BotType.COMPETITION);
+        } else {
+            setupBot(BotType.UNKNOWN);
+        }
+    }
+
+    private void setupBot(BotType botType) {
+        switch (botType) {
+            case PRACTICE:
+                // Define talons
+                leftMaster = new WPI_TalonSRX(3);
+                rightMaster = new WPI_TalonSRX(1);
+                leftFollower = new WPI_TalonSRX(4);
+                rightFollower = new WPI_TalonSRX(2);
+                //Define differential drive
+                differentialDrive = new DifferentialDrive(rightMaster, leftMaster);
+
+                rightFollower.setInverted(InvertType.FollowMaster);
+                rightMaster.setInverted(false);
+                leftFollower.setInverted(InvertType.FollowMaster);
+                leftMaster.setInverted(true);
+
+                rightFollower.follow(rightMaster);
+                leftFollower.follow(leftMaster);
+                break;
+            case COMPETITION:
+                // Define talons
+                leftMaster = new WPI_TalonSRX(3);
+                rightMaster = new WPI_TalonSRX(1);
+                leftFollower = new WPI_TalonSRX(4);
+                rightFollower = new WPI_TalonSRX(2);
+                //Define differential drive
+                differentialDrive = new DifferentialDrive(rightMaster, leftMaster);
+
+                rightFollower.setInverted(InvertType.FollowMaster);
+                rightMaster.setInverted(false);
+                leftFollower.setInverted(InvertType.FollowMaster);
+                leftMaster.setInverted(true);
+
+                rightFollower.follow(rightMaster);
+                leftFollower.follow(leftMaster);
+                break;
+            case UNKNOWN:
+                // Define talons
+                leftMaster = new WPI_TalonSRX(3);
+                rightMaster = new WPI_TalonSRX(1);
+                leftFollower = new WPI_TalonSRX(4);
+                rightFollower = new WPI_TalonSRX(2);
+                //Define differential drive
+                differentialDrive = new DifferentialDrive(rightMaster, leftMaster);
+
+                rightFollower.setInverted(InvertType.FollowMaster);
+                rightMaster.setInverted(false);
+                leftFollower.setInverted(InvertType.FollowMaster);
+                leftMaster.setInverted(true);
+
+                rightFollower.follow(rightMaster);
+                leftFollower.follow(leftMaster);
+                break;
+        }
     }
 
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
 
     }
 
@@ -51,17 +112,6 @@ public class DriveTrain extends SubsystemBase {
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
 
-
-    }
-
-    private void setupTalons() {
-        rightFollower.setInverted(InvertType.FollowMaster);
-        rightMaster.setInverted(false);
-        leftFollower.setInverted(InvertType.FollowMaster);
-        leftMaster.setInverted(true);
-
-        rightFollower.follow(rightMaster);
-        leftFollower.follow(leftMaster);
     }
 
     /**
@@ -73,14 +123,6 @@ public class DriveTrain extends SubsystemBase {
      */
     public void tankDrive(double leftSpeed, double rightSpeed) {
         differentialDrive.tankDrive(leftSpeed, rightSpeed);
-    }
-
-    public WPI_TalonSRX getLeftFollower() {
-        return leftFollower;
-    }
-
-    public WPI_TalonSRX getRightFollower() {
-        return rightFollower;
     }
 }
 

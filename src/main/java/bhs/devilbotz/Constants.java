@@ -16,6 +16,6 @@ package bhs.devilbotz;
 public final class Constants {
     public static final String practiceBotMAC = "00802F17C8A9";
     // TODO: Once compilation bot is fixed, add its MAC address here.
-    public static final String competitionBotMAC = "";
+    public static final String competitionBotMAC = "00802F17DEE0";
 
 }

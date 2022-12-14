@@ -6,8 +6,8 @@
 package bhs.devilbotz;
 
 import bhs.devilbotz.commands.DriveCommand;
-import bhs.devilbotz.commands.GetUniqueID;
 import bhs.devilbotz.subsystems.DriveTrain;
+import bhs.devilbotz.subsystems.UniqueID;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,9 +49,6 @@ public class RobotContainer
                 () -> -joyLeft.getY(),
                 () -> -joyRight.getY()
         ));
-
-        new JoystickButton(joyRight, 1)
-                .whenPressed(new GetUniqueID());
     }
     
     
