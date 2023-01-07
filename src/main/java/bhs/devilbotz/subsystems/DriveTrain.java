@@ -124,6 +124,18 @@ public class DriveTrain extends SubsystemBase {
     public void tankDrive(double leftSpeed, double rightSpeed) {
         differentialDrive.tankDrive(leftSpeed, rightSpeed);
     }
+
+    public void arcadeDrive(double forwardSpeed, double rotationSpeed) {
+        differentialDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+    }
+
+    public double getLeftEncoderValues() {
+        return leftFollower.getSelectedSensorVelocity();
+    }
+
+    public double getRightEncoderValues() {
+        return rightFollower.getSelectedSensorVelocity();
+    }
 }
 
 

@@ -99,7 +99,10 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        System.out.println(robotContainer.getDriveTrain().getLeftEncoderValues());
+        System.out.println(robotContainer.getDriveTrain().getRightEncoderValues());
+    }
     
     
     @Override

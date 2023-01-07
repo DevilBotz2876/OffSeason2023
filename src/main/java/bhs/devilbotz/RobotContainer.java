@@ -5,6 +5,7 @@
 
 package bhs.devilbotz;
 
+import bhs.devilbotz.commands.AimAtTarget;
 import bhs.devilbotz.commands.DriveCommand;
 import bhs.devilbotz.subsystems.DriveTrain;
 import bhs.devilbotz.subsystems.UniqueID;
@@ -49,6 +50,9 @@ public class RobotContainer
                 () -> -joyLeft.getY(),
                 () -> -joyRight.getY()
         ));
+
+        new JoystickButton(joyLeft, 1)
+                .whenPressed(new AimAtTarget(driveTrain));
     }
     
     
@@ -63,5 +67,9 @@ public class RobotContainer
         // onomous
         // TODO: add autonomous
         return null;
+    }
+
+    public DriveTrain getDriveTrain() {
+        return driveTrain;
     }
 }
