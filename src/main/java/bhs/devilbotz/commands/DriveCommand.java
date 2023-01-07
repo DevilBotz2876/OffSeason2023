@@ -12,46 +12,34 @@
 package bhs.devilbotz.commands;
 
 import bhs.devilbotz.subsystems.DriveTrain;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.DoubleSupplier;
 
 public class DriveCommand extends CommandBase {
     private final DriveTrain drive;
-    private final DoubleSupplier left;
-    private final DoubleSupplier right;
+    private final DoubleSupplier speed;
+    private final DoubleSupplier rotation;
 
-    public DriveCommand(DriveTrain drive, DoubleSupplier left, DoubleSupplier right) {
+    private final SlewRateLimiter slew = new SlewRateLimiter(2);
+
+    public DriveCommand(DriveTrain drive, DoubleSupplier speed, DoubleSupplier rotation) {
         this.drive = drive;
-        this.left = left;
-        this.right = right;
+        this.speed = speed;
+        this.rotation = rotation;
         addRequirements(this.drive);
     }
 
     @Override
     public void execute() {
-        double r = right.getAsDouble();
-        double l = left.getAsDouble();
+         double s = speed.getAsDouble();
+         double r = rotation.getAsDouble();
 
-        // Forward Snapping
-        if ((Math.abs((l - r) / r) < 0.15 || Math.abs((r - l) / l) < 0.15) && ((l > 0.05 || l < -0.05) || (r > 0.05 || r < -0.05))) {
-            double oldLeft = l;
-            double oldRight = l;
 
-            l = (oldLeft + oldRight) / 2;
 
-            r = (oldLeft + oldRight) / 2;
-        }
+        drive.arcadeDrive(s, slew.calculate(r));
 
-        // (a*(x^3)+(b-a)*x)*1.1
-        double a = 0.2;
-        double b = 0.9;
-
-        // Modified curve
-        r = (a * (r * r * r) + (b - a) * r) * 1.1;
-        l = (a * (l * l * l) + (b - a) * l) * 1.1;
-
-        drive.tankDrive(l, r);
     }
 
     @Override

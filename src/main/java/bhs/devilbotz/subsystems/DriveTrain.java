@@ -124,6 +124,10 @@ public class DriveTrain extends SubsystemBase {
     public void tankDrive(double leftSpeed, double rightSpeed) {
         differentialDrive.tankDrive(leftSpeed, rightSpeed);
     }
+
+    public void arcadeDrive(double speed, double rotation) {
+        differentialDrive.arcadeDrive(speed, rotation);
+    }
 }
 
 

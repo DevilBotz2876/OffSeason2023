@@ -46,8 +46,8 @@ public class RobotContainer
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         driveTrain.setDefaultCommand(new DriveCommand(driveTrain,
-                () -> -joyLeft.getY(),
-                () -> -joyRight.getY()
+                () -> -joyRight.getY(),
+                joyRight::getX
         ));
     }
     
