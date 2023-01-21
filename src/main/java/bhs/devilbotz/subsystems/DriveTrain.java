@@ -5,12 +5,16 @@
 
 package bhs.devilbotz.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+
 import bhs.devilbotz.Constants;
 import bhs.devilbotz.utils.BotType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.InvertType;
 
 /**
  * Creates a new DriveTrain.
@@ -28,6 +32,9 @@ public class DriveTrain extends SubsystemBase {
     private static WPI_TalonSRX leftFollower;
     private static WPI_TalonSRX rightFollower;
 
+    //navx
+    private static final AHRS navx = new AHRS(SPI.Port.kMXP);
+
     //Follower - Master Talon is "given" the instructions and the follower talons controlling the other motors essentially follow the master talons
 
 
@@ -42,6 +49,7 @@ public class DriveTrain extends SubsystemBase {
         } else {
             setupBot(BotType.UNKNOWN);
         }
+        SmartDashboard.putData("navx", navx);
     }
 
     private void setupBot(BotType botType) {
@@ -127,6 +135,10 @@ public class DriveTrain extends SubsystemBase {
 
     public void arcadeDrive(double speed, double rotation) {
         differentialDrive.arcadeDrive(speed, rotation);
+    }
+
+    public double getGyroAngleY() {
+        return navx.getRoll();
     }
 }
 
