@@ -5,14 +5,12 @@
 
 package bhs.devilbotz;
 
-import bhs.devilbotz.commands.DriveCommand;
+import bhs.devilbotz.commands.ArcadeDrive;
 import bhs.devilbotz.subsystems.DriveTrain;
-import bhs.devilbotz.subsystems.UniqueID;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 /**
@@ -45,10 +43,11 @@ public class RobotContainer
     private void configureButtonBindings() {
         // Add button to command mappings here.
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
-        driveTrain.setDefaultCommand(new DriveCommand(driveTrain,
-                () -> -joyLeft.getY(),
-                () -> -joyRight.getY()
-        ));
+        // driveTrain.setDefaultCommand(new DriveCommand(driveTrain,
+        //         () -> -joyLeft.getY(),
+        //         () -> -joyRight.getY()
+        // ));
+        driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain, joyRight));
     }
     
     
